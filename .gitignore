@@ -1,0 +1,4 @@
+cred-personal.yml
+*.log
+*.bak
+__pycache__/
