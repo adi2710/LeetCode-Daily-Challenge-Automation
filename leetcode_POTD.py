@@ -78,7 +78,7 @@ if __name__ == "__main__":
         status_code, response_text = submit_solution(qid, title_slug, solution)
 
         if status_code == 200:
-            result = f"{status_code} {response_text}"
+            result = f"Soution successfully submitted for {qid = }. {response_text} [{display_qid}: {title_slug}]"
         elif status_code == 404:
             result = f"No old solution found for {qid=}. [{display_qid}: {title_slug}]"
         else:
