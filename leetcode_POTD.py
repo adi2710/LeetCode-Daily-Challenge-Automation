@@ -39,7 +39,7 @@ def get_solution(title_slug):
     github_token = CONFIG["github_token"]
     headers = {}
     if github_token:
-        headers['Authorization'] = [f"token {github_token}"]
+        headers['Authorization'] = f"token {github_token}"
     folder = {'cpp': 'C++', 'python': 'Python'}
     extension = {'cpp': 'cpp', 'python': 'py'}
 
