@@ -4,5 +4,6 @@ leetcode:
     csrftoken: abc
     messages: abc$[["__json_message",0,24,"Successfully signed in as user."]]
   global_lang: cpp
-  github_token: abc
+  github_token: # abc
   # global_lang: cpp or python supported
+  # Optional: github_token -> GitHub personal token here
