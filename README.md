@@ -12,5 +12,5 @@ Technology Used : Python
 1. Clone/ Download this repo.
 2. Setup a python virtual environment and run  
    `pip install -r requirements.txt`
-3. Add your `LeetCode's Session` and `crsftoken` in `cred.yml` file. Optional to add `GitHub personal token` there.
+3. Add your `LeetCode's Session` and `csrftoken` in `cred.yml` file. Optional to add `GitHub personal token` there.
 4. Run the script.
