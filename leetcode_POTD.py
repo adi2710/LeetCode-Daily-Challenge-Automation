@@ -7,8 +7,12 @@ Settings-
 
 Suggestion - Use Task Scheduler/ Cron Job to run this script daily
 """
+
 import requests
 import base64
+from email.message import EmailMessage
+import smtplib
+import time
 from config import CONFIG, Logger
 
 CONFIG = CONFIG["leetcode"]
@@ -70,19 +74,54 @@ def submit_solution(qid, title_slug, solution):
 
     return page.status_code, page.text
 
+def send_email_reminder(subject, body):
+    message = EmailMessage()
+    email_adddess, email_password, to_email = CONFIG['email_address'], CONFIG['email_password'], CONFIG['to_email']
+    message = f'Content-type: text/html\nSubject: {subject}\n\n{body}'
+
+    smtp = smtplib.SMTP(host='smtp.office365.com', port=587)
+    smtp.starttls()
+    smtp.login(user=email_adddess, password=email_password)
+    smtp.sendmail(email_adddess, to_email, message)
+    smtp.quit()
+
 
 if __name__ == "__main__":
     display_qid, qid, title_slug, question_difficulty, is_submitted = get_daily_leetcoding_challenge_question()
+    t = time.localtime()
+    current_time = int(time.strftime("%H", t))
     if not is_submitted:
-        solution = get_solution(title_slug)
-        status_code, response_text = submit_solution(qid, title_slug, solution)
-
-        if status_code == 200:
-            result = f"Soution successfully submitted for {qid = }. {response_text} [{display_qid}: {title_slug}]"
-        elif status_code == 404:
-            result = f"No old solution found for {qid=}. [{display_qid}: {title_slug}]"
+        if current_time == 20:
+            problem_link = f"https://leetcode.com/problems/{title_slug}"
+            hyperlink = f'<a href="{problem_link}">{title_slug}</a>'
+            subject = "First reminder to submit Daily LeetCoding Challenge"
+            body = f"Hi there,<br>You haven\'t submitted today's LeetCode Challenge. Please submit the solution asap.<br>Problem Link: {hyperlink}"
+            send_email_reminder(subject, body)
+            result = f"Sent first email reminder for problem {title_slug}"
+        elif current_time == 22:
+            problem_link = f"https://leetcode.com/problems/{title_slug}"
+            hyperlink = f'<a href="{problem_link}">{title_slug}</a>'
+            subject = "Second reminder to submit Daily LeetCoding Challenge"
+            body = f"Hi there,<br>You haven\'t submitted today's LeetCode Challenge. Please submit the solution asap.<br>Problem Link: {hyperlink}"
+            send_email_reminder(subject, body)
+            result = f"Sent second email reminder for problem {title_slug}"
+        elif current_time == 23:
+            problem_link = f"https://leetcode.com/problems/{title_slug}"
+            hyperlink = f'<a href="{problem_link}">{title_slug}</a>'
+            subject = "Final reminder to submit Daily LeetCoding Challenge"
+            body = f"Hi there,<br>You haven\'t submitted today's LeetCode Challenge. Please submit the solution asap otherwise it will be submitted automatically at 12:00 a.m.<br>Problem Link: {hyperlink}"
+            send_email_reminder(subject, body)
+            result = f"Sent final email reminder for problem {title_slug}"
         else:
-            result = f"{status_code} - Try changing LEETCODE_SESSION value using cookies"
+            solution = get_solution(title_slug)
+            status_code, response_text = submit_solution(qid, title_slug, solution)
+
+            if status_code == 200:
+                result = f"Soution successfully submitted for {qid = }. {response_text} [{display_qid}: {title_slug}]"
+            elif status_code == 404:
+                result = f"No old solution found for {qid=}. [{display_qid}: {title_slug}]"
+            else:
+                result = f"{status_code} - Try changing LEETCODE_SESSION value using cookies"
     else:
         result = f"Solution already submitted for {qid=}. [{display_qid}: {title_slug}]"
     logger.log(f"{result} ({question_difficulty}) \n")
