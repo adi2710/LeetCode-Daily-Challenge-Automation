@@ -5,7 +5,7 @@ Settings-
 1. Add cookies value in cred.yml
 2. Update LEETCODE_SESSION value, in case of failure.
 
-Suggestion - Use Task Scheduler/ Cron Job to run this script daily
+Suggestion - Use AWS Lambda/ Task Scheduler/ Cron Job to run this script daily
 """
 
 import requests
