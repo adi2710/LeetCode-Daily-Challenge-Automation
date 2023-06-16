@@ -1,5 +1,5 @@
 """ leetcode_POTD.py:
-To fetch and submit Daily LeetCoding Challenge if forgot
+To send email reminders and submit Daily LeetCoding Challenge if already solved previously.
 
 Settings-
 1. Add cookies value in cred.yml
