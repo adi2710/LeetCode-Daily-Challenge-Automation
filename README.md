@@ -5,7 +5,7 @@ Technology Used : Python
 
 ## Content
 
-1. leetcode_POTD.py - To fetch and submit Daily LeetCoding Challenge solution if forgot by mistake.
+1. leetcode_POTD.py - To send email reminders and submit Daily LeetCoding Challenge solution if already solved the problem previously.
 
 ## Setup
 
